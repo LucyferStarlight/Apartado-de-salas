@@ -1,0 +1,32 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.header{
+    background-color: white;
+    border-radius: 0px 0px 5px 5px;
+}
+.header .img:hover{
+    width: 250px;
+    height: 80px;
+    transition: .5s;
+    
+}
+.header .itc:hover{
+    width: 120px;
+    height: 70px;
+    transition: .5s;
+}
+body{   
+    background: linear-gradient(to right,#1B396A,#807E82);
+    color: white;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#busqueda{
+    border-radius: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#boton{
+    border-radius: 30px;
+    font-size: 15px;
+}
