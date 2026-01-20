@@ -11,3 +11,6 @@ $router->add('GET', '/logout', 'AuthController', 'logout');
 
 //Ruta raíz /
 $router->add('GET', '/', 'AuthController', 'showLogin');
+
+//Ruta Dashboard
+$router->add('GET', '/dashboard', 'DashboardController', 'index');

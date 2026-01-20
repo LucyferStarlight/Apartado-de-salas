@@ -19,7 +19,22 @@ class Router
     private function getCurrentPath(): string
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        return rtrim($uri, '/') ?: '/';
+
+        // Ruta del script actual (ej: /dashboard/Portafolio/Apartado-Salas/public/index.php)
+        $scriptName = $_SERVER['SCRIPT_NAME'];
+
+        // Directorio base del proyecto (ej: /dashboard/Portafolio/Apartado-Salas/public)
+        $basePath = rtrim(str_replace('/index.php', '', $scriptName), '/');
+
+        // Quitar el base path de la URI
+        if (strpos($uri, $basePath) === 0) {
+            $uri = substr($uri, strlen($basePath));
+        }
+
+        // Normalizar la ruta final
+        $uri = '/' . trim($uri, '/');
+
+        return $uri === '/' ? '/' : $uri;
     }
 
     //Función para leer el método HTTP
@@ -49,7 +64,7 @@ class Router
 
     private function callAction(string $controllerName, string $action): void
     {
-        $controllerFile = __DIR__ . '/../Controllers/' . $controllerName . '.php';
+        $controllerFile = __DIR__ . '/../controllers/' . $controllerName . '.php';
 
         if (!file_exists($controllerFile)) {
             die('Controlador no encontrado');

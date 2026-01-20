@@ -25,7 +25,7 @@
     }
 </style>
 <body>
-    <form action="/login" method="POST">
+    <form action="login" method="POST">
     <div name="encabezado">
         <center>
             <label>Inicio de Sesión</label>
