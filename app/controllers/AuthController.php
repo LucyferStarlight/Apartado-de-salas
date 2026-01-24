@@ -47,11 +47,12 @@ class AuthController
         header('Location: dashboard');
         exit;
     }
-
+    //Función para salir de sesión
     public function logout(): void
     {
         Session::destroy();
         header('Location: login');
         exit;
     }
+    
 }

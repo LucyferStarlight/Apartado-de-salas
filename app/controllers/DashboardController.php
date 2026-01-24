@@ -1,24 +1,14 @@
-<?php
+<?php   
 
-require_once __DIR__ . '/../Helpers/Session.php';
+require_once dirname(__DIR__) . '/Helpers/Session.php';
+require_once dirname(__DIR__) . '/Helpers/Auth.php';
 
 class DashboardController
 {
-    /**
-     * Muestra el dashboard principal
-     */
-    public function index(): void
+     public function index(): void
     {
-        // Proteger la ruta
-        if (!Session::isActive()) {
-            header('Location: /login');
-            exit;
-        }
+        Auth::requireLogin();
 
-        // Obtener datos del usuario desde la sesión
-        $user = $_SESSION['user'];
-
-        // Cargar la vista
         require_once dirname(__DIR__) . '/views/dashboard/index.php';
     }
 }

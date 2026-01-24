@@ -4,6 +4,8 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+require_once __DIR__ . '/../app/config/app.php';
+
 // Cargar el Router
 require_once __DIR__ . '/../app/core/Router.php';
 

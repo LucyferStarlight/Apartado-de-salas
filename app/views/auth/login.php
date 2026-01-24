@@ -25,20 +25,21 @@
     }
 </style>
 <body>
-    <form action="login" method="POST">
-    <div name="encabezado">
-        <center>
-            <label>Inicio de Sesión</label>
-        </center>
-    </div>
-    <div name="cuerpo">
-    <label>Usuario</label><br>
-    <input type="text" name="user" id="usr"><br>
-    <label>Contraseña</label><br>
-    <input type="text" name="pass" id="pass"><br>
-    <input type="submit" value="Iniciar Sesión" id="btn" name="btn">
-    </div>
+   <form action="<?= BASE_URL ?>/login" method="POST" enctype="application/x-www-form-urlencoded">
+
+        <div>
+            <label>Usuario</label><br>
+            <input type="text" name="username" required>
+        </div>
+
+        <div>
+            <label>Contraseña</label><br>
+            <input type="password" name="password" required>
+        </div>
+
+        <button type="submit">Iniciar sesión</button>
 
     </form>
+
 </body>
 </html>

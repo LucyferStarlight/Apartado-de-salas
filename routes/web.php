@@ -14,3 +14,10 @@ $router->add('GET', '/', 'AuthController', 'showLogin');
 
 //Ruta Dashboard
 $router->add('GET', '/dashboard', 'DashboardController', 'index');
+
+// Reservaciones
+$router->add('GET',  '/reservations/create', 'ReservationController', 'create');
+$router->add('POST', '/reservations/store',  'ReservationController', 'store');
+
+//Ruta API interna
+$router->add('GET', '/api/materials', 'MaterialController', 'byRoom');
