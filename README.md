@@ -14,14 +14,24 @@ El sistema ha sido reestructurado desde cero utilizando una arquitectura **MVC (
 - Sistema de autenticación (login) funcional
 - Conexión a base de datos mediante PDO
 - Manejo de sesiones
-- Vista inicial de dashboard protegida por sesión
+- Dashboard protegido por sesión
+- Módulo de reservaciones funcional:
+  - Creación de solicitudes de apartado
+  - Asignación de horarios múltiples
+  - Validación de traslapes de fechas y horas
+  - Asignación de materiales por sala
+  - Validaciones backend y control de integridad
+  - Uso de transacciones para consistencia de datos
 
 ### Funcionalidades pendientes
 
 - Cierre de sesión (logout)
 - Gestión de usuarios
-- Módulo de salas (apartado, disponibilidad, administración)
+- Listado de reservaciones (usuario y administración)
+- Aprobación / rechazo de solicitudes
 - Manejo de roles y permisos
+- Generación de documentos de solicitud
+- Envío de notificaciones por correo
 - Mejora de la interfaz con Bootstrap
 
 ## Tecnologías utilizadas
