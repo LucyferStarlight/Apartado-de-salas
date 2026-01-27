@@ -1,49 +1,52 @@
 # Apartado de Salas
 
-Proyecto en desarrollo para la gestión y apartado de salas, actualmente en proceso de refactorización completa.
+Sistema web para la gestión y apartado de salas institucionales, desarrollado en PHP sin framework, con arquitectura MVC y control de acceso por roles.
 
 ## Estado actual del proyecto
 
-El sistema ha sido reestructurado desde cero utilizando una arquitectura **MVC (Modelo–Vista–Controlador)** con un **router propio en PHP**, con el objetivo de mejorar la organización del código, facilitar el mantenimiento y permitir escalabilidad futura.
+El proyecto fue refactorizado completamente desde una versión legacy hacia una arquitectura **MVC (Modelo–Vista–Controlador)**, incorporando un **router propio**, separación de responsabilidades y validaciones de seguridad a nivel backend.
 
-### Funcionalidades implementadas
+## Funcionalidades implementadas
 
-- Arquitectura MVC organizada por responsabilidades
+- Arquitectura MVC organizada
 - Front Controller (`public/index.php`)
-- Router propio para manejo de rutas GET y POST
-- Sistema de autenticación (login) funcional
-- Conexión a base de datos mediante PDO
+- Router propio para rutas GET y POST
+- Autenticación de usuarios (login / logout)
 - Manejo de sesiones
-- Dashboard protegido por sesión
-- Módulo de reservaciones funcional:
-  - Creación de solicitudes de apartado
-  - Asignación de horarios múltiples
-  - Validación de traslapes de fechas y horas
-  - Asignación de materiales por sala
-  - Validaciones backend y control de integridad
-  - Uso de transacciones para consistencia de datos
+- Control de acceso por roles:
+  - **Usuario**: puede crear solicitudes de apartado
+  - **Administrador**: puede gestionar todas las solicitudes
+- Dashboard dinámico según rol
+- Creación de solicitudes de apartado de salas
+- Validación de traslape de horarios
+- Gestión de materiales por sala
+- Flujo administrativo:
+  - Ver todas las solicitudes
+  - Filtrar solicitudes pendientes
+  - Aprobar o rechazar reservaciones
+- Conexión a base de datos mediante PDO
 
-### Funcionalidades pendientes
+## Funcionalidades pendientes / futuras
 
-- Cierre de sesión (logout)
-- Gestión de usuarios
-- Listado de reservaciones (usuario y administración)
-- Aprobación / rechazo de solicitudes
-- Manejo de roles y permisos
-- Generación de documentos de solicitud
+- Vista de “Mis solicitudes” para usuarios
+- Detalle individual de solicitudes
+- Generación de documentos (PDF)
 - Envío de notificaciones por correo
-- Mejora de la interfaz con Bootstrap
+- Mejora visual con Bootstrap
 
 ## Tecnologías utilizadas
 
 - PHP (sin framework)
 - MariaDB / MySQL
 - HTML / CSS
+- JavaScript (fetch API)
 - PDO para acceso a base de datos
 
-## Nota
+## Ramas del repositorio
 
-Este proyecto se encuentra en una rama de refactorización (`clean-architecture`).  
-La rama `main` conserva la versión original del sistema como referencia.
+- `main`: versión legacy original del sistema
+- `clean-architecture`: refactorización completa con MVC y nuevas funcionalidades
 
 ---
+
+Proyecto desarrollado como parte de prácticas profesionales y refactorizado con fines de aprendizaje y portafolio.
