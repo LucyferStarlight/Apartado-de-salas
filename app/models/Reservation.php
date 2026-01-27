@@ -172,4 +172,38 @@ class Reservation
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Obtener reservaciones filtradas por estado
+     */
+    public function getByStatus(string $status): array
+    {
+        $allowedStatuses = ['pendiente', 'aprobado', 'rechazado'];
+
+        if (!in_array($status, $allowedStatuses, true)) {
+            return [];
+        }
+
+        $sql = "
+            SELECT 
+                r.id,
+                r.event_name,
+                r.status,
+                r.created_at,
+                rm.name AS room_name,
+                u.username
+            FROM reservations r
+            JOIN rooms rm ON rm.id = r.room_id
+            JOIN users u ON u.id = r.user_id
+            WHERE r.status = :status
+            ORDER BY r.created_at DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':status', $status, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }

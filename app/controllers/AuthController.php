@@ -5,8 +5,8 @@ require_once dirname(__DIR__) . '/Helpers/Session.php';
 
 class AuthController
 {
-    public function showLogin(): void
-    {
+    public function showLogin(): void {
+        
         if (Session::isActive()) {
             header('Location: dashboard');
             exit;
@@ -20,7 +20,7 @@ class AuthController
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: login');
+            header('Location: ' . BASE_URL . '/login');
             exit;
         }
 
@@ -44,14 +44,26 @@ class AuthController
 
         Session::create($authResult);
 
-        header('Location: dashboard');
+        header('Location: ' .BASE_URL . '/dashboard');
         exit;
     }
     //Función para salir de sesión
     public function logout(): void
     {
-        Session::destroy();
-        header('Location: login');
+        //Si no hay sesión, solo redirige
+        if (session_status() === PHP_SESSION_NONE){
+            session_start();
+        }
+
+        //Destruir sesión correctamente
+        session_unset();
+        session_destroy();
+
+        //Regenerar ID por seguridad
+        session_regenerate_id(true);
+
+        //Redirigir al login
+        header('Location: ' . BASE_URL . '/login');
         exit;
     }
     

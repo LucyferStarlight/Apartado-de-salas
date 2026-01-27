@@ -116,4 +116,125 @@ class ReservationController
             exit;
         }
     }
+    /**
+     * Listado de reservaciones (ADMIN)
+     */
+    public function index(): void
+    {
+        // Solo admins
+        Auth::requireRole('admin');
+
+        $reservationModel = new Reservation();
+
+        // Filtro opcional por estado
+        $status = $_GET['status'] ?? null;
+
+        if ($status) {
+            $reservations = $reservationModel->getByStatus($status);
+        } else {
+            $reservations = $reservationModel->getAll();
+        }
+
+        require_once dirname(__DIR__) . '/views/reservations/index.php';
+    }
+    /**
+     * Listado de reservaciones (USUARIOS/ENCARGADOS)
+     */
+    public function getByStatus(string $status): array
+    {
+        $allowed = ['pendiente', 'aprobado', 'rechazado'];
+
+        if (!in_array($status, $allowed, true)) {
+            return [];
+        }
+
+        $sql = "
+            SELECT 
+                r.id,
+                r.event_name,
+                r.status,
+                r.created_at,
+                rm.name AS room_name,
+                u.username
+            FROM reservations r
+            JOIN rooms rm ON rm.id = r.room_id
+            JOIN users u ON u.id = r.user_id
+            WHERE r.status = :status
+            ORDER BY r.created_at DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':status', $status);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Aprobar (SOLO ADMIN)
+     */
+    public function approve(): void {
+        Auth::requireRole('admin');
+
+        // Validar método
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
+
+        // Obtener ID
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            Session::setFlash('error', 'Solicitud inválida.');
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
+
+        // Cambiar estado
+        $reservationModel = new Reservation();
+        $reservationModel->updateStatus((int)$id, 'aprobado');
+
+        // Feedback
+        Session::setFlash('success', 'Solicitud aprobada correctamente.');
+
+        // Volver al listado
+        header('Location: ' . BASE_URL . '/reservations');
+        exit;
+    }
+    /**
+     * Rechazar (SOLO ADMIN)
+     */
+    public function reject(): void
+{
+    // Solo administradores
+    Auth::requireRole('admin');
+
+    // Validar método
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: ' . BASE_URL . '/reservations');
+        exit;
+    }
+
+    // Obtener ID
+    $id = $_POST['id'] ?? null;
+
+    if (!$id) {
+        Session::setFlash('error', 'Solicitud inválida.');
+        header('Location: ' . BASE_URL . '/reservations');
+        exit;
+    }
+
+    // Cambiar estado
+    $reservationModel = new Reservation();
+    $reservationModel->updateStatus((int)$id, 'rechazado');
+
+    // Feedback
+    Session::setFlash('success', 'Solicitud rechazada.');
+
+    // Volver al listado
+    header('Location: ' . BASE_URL . '/reservations');
+    exit;
+}
+
 }

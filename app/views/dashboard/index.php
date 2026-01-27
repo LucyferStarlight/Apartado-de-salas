@@ -1,3 +1,7 @@
+<?php
+require_once dirname(__DIR__, 2) . '/Helpers/Auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -110,15 +114,19 @@
     <section class="actions">
         <a href="<?= BASE_URL ?>/reservations/create">Apartar sala</a>
     <a href="<?= BASE_URL ?>/reservations/mine">Mis solicitudes</a>
-    <a href="<?= BASE_URL ?>/logout">Cerrar sesión</a>
 
     </section>
 
     <!-- Acciones administrativas -->
-    <?php if (!empty($_SESSION['user']['is_admin'])): ?>
+    <?php if (Auth::hasRole('admin')): ?>
         <section class="actions">
-            <a href="/reservations" class="admin">Ver todas las solicitudes</a>
-            <a href="/reservations?status=pendiente" class="admin">Solicitudes pendientes</a>
+            <a href="<?= BASE_URL ?>/reservations" class="admin">
+                Ver todas las solicitudes
+            </a>
+
+            <a href="<?= BASE_URL ?>/reservations?status=pendiente" class="admin">
+                Solicitudes pendientes
+            </a>
         </section>
     <?php endif; ?>
 
