@@ -95,3 +95,11 @@ El sistema está preparado para futuras extensiones como:
 - notificaciones por correo,
 - mejoras visuales con Bootstrap.
 La vista en vivo de este proyecto está en: www.arakatadevs.com.mx/Portafolio/Apartado-Salas/
+
+---
+
+## Créditos y atribuciones
+- Diseño del formulario de inicio de sesión basado en un proyecto frontend con licencia **MIT**, obtenido desde CodePen / FreeFrontend
+    El diseño fue adaptado e integrado al sistema MVC con backend en PHP
+
+- Ícono utilizado en la vista de inicio de sesión diseñado por **SumberRejeki** disponible en **Flaticon** (https://www.flaticon.es/icono-gratis/acceso_4400145?term=acceso&page=1&position=3&origin=search&related_id=4400145) 

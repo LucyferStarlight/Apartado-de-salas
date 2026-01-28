@@ -8,11 +8,10 @@ class AuthController
     public function showLogin(): void {
         
         if (Session::isActive()) {
-            header('Location: dashboard');
+            header('Location: ' . BASE_URL . '/dashboard');
             exit;
         }
 
-        $error = Session::getFlash('error');
 
         require_once dirname(__DIR__) . '/views/auth/login.php';
     }
@@ -36,9 +35,12 @@ class AuthController
         $userModel = new User();
         $authResult = $userModel->authenticate($user, $pass);
 
-        if ($authResult === false) {
+        if (!$authResult) {
             Session::setFlash('error', 'Usuario o contraseña incorrectos.');
-            header('Location: login');
+            // Forzar guardado de sesión
+            session_write_close();
+            
+            header('Location: ' . BASE_URL . '/login');
             exit;
         }
 

@@ -3,43 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
-    form{
-        width: 50%;
-        height: 50%;
-        text-align: center;
-    }
-    form,div.encabezado{
-        margin-top: 20px;
-        margin-left: 20%;
-        margin-right: 20%;
-        margin-bottom: 20px;
-    }
-    form,div.cuerpo{
-        margin-top: 15px;
-        margin-left: 20%;
-        margin-right: 20%;
-        margin-bottom: 35%;
-    }
-</style>
-<body>
-   <form action="<?= BASE_URL ?>/login" method="POST" enctype="application/x-www-form-urlencoded">
-
-        <div>
-            <label>Usuario</label><br>
-            <input type="text" name="username" required>
+    <title>Iniciar Sesión</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.7.3/tailwind.min.css'></head>
+ <body>
+  <body class="flex h-screen bg-indigo-700">
+<div class="w-full max-w-xs m-auto bg-indigo-100 rounded p-5">   
+      <header>
+        <img class="w-20 mx-auto mb-5" src="<?= BASE_URL ?>/assets/images/acceso.png" alt="Icono de inicio de sesion" width="96" height="96" />
+      </header>   
+      <?php if ($error = Session::getFlash('error')): ?>
+        <div style="color:red; margin-bottom:10px;" class="error">
+            <?= htmlspecialchars($error)?>
         </div>
+        <?php endif; ?>
 
+      <form method="POST" action="<?= BASE_URL ?>/login">
         <div>
-            <label>Contraseña</label><br>
-            <input type="password" name="password" required>
+          <label class="block mb-2 text-indigo-500" for="username">Usuario</label>
+          <input class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="text" name="username" required>
         </div>
-
-        <button type="submit">Iniciar sesión</button>
-
-    </form>
-
+        <div>
+          <label class="block mb-2 text-indigo-500" for="password">Contraseña</label>
+          <input class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="password" name="password" required>
+        </div>
+        <div>          
+          <input class="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded" type="submit">
+        </div>       
+      </form>  
+      <footer>
+       
+      </footer>   
+    </div>
 </body>
+    
+  </body>
 </html>
