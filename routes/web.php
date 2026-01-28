@@ -24,5 +24,10 @@ $router->add('POST', '/reservations/approve', 'ReservationController', 'approve'
 //Rechazar
 $router->add('POST', '/reservations/reject', 'ReservationController', 'reject');
 
+//Revisar solicitud
+$router->add('GET', '/reservations/show', 'ReservationController', 'show');
+
+//Solicitudes individuales
+$router->add('GET', '/reservations/mine', 'ReservationController', 'mine');
 //Ruta API interna
 $router->add('GET', '/api/materials', 'MaterialController', 'byRoom');

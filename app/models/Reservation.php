@@ -206,4 +206,45 @@ class Reservation
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Obtener reservaciones de un usuario específico
+     */
+    public function getByUser(int $userId): array{
+        $sql = "
+                    SELECT
+                        r.id,
+                        r.event_name,
+                        r.status,
+                        r.created_at,
+                        rm.name AS room_name
+                    FROM reservations r
+                    JOIN rooms rm ON rm.id = r.room_id
+                    WHERE r.user_id = :user_id
+                    ORDER BY r.created_at DESC
+                ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Obtener reservaciones
+     */
+    public function getSlots(int $reservationId): array{
+        $sql = "
+                SELECT date, start_time, end_time
+                FROM reservation_slots
+                WHERE reservation_id = :id
+                ORDER BY date, start_time
+            ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $reservationId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

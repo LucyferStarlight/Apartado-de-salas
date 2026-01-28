@@ -206,35 +206,84 @@ class ReservationController
      * Rechazar (SOLO ADMIN)
      */
     public function reject(): void
-{
-    // Solo administradores
-    Auth::requireRole('admin');
+    {
+        // Solo administradores
+        Auth::requireRole('admin');
 
-    // Validar método
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        // Validar método
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
+
+        // Obtener ID
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            Session::setFlash('error', 'Solicitud inválida.');
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
+
+        // Cambiar estado
+        $reservationModel = new Reservation();
+        $reservationModel->updateStatus((int)$id, 'rechazado');
+
+        // Feedback
+        Session::setFlash('success', 'Solicitud rechazada.');
+
+        // Volver al listado
         header('Location: ' . BASE_URL . '/reservations');
         exit;
     }
 
-    // Obtener ID
-    $id = $_POST['id'] ?? null;
+    /**
+     * Ver solicitudes individuales
+     */
+    public function mine(): void {
 
-    if (!$id) {
-        Session::setFlash('error', 'Solicitud inválida.');
-        header('Location: ' . BASE_URL . '/reservations');
-        exit;
+        Auth::requireLogin();
+
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        if (!$userId) {
+            Session::setFlash('error', 'Sesión inválida');
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+
+        $reservationModel = new Reservation();
+        $reservations = $reservationModel->getByUser($userId);
+
+        require_once dirname(__DIR__) . '/views/reservations/mine.php';
     }
 
-    // Cambiar estado
-    $reservationModel = new Reservation();
-    $reservationModel->updateStatus((int)$id, 'rechazado');
+    /**
+     * Revisar información de solicitudes individuales
+     */
+    public function show(): void{
+        Auth::requireRole('admin');
 
-    // Feedback
-    Session::setFlash('success', 'Solicitud rechazada.');
+        $id = $_GET['id'] ?? null;
 
-    // Volver al listado
-    header('Location: ' . BASE_URL . '/reservations');
-    exit;
-}
+        if (!$id) {
+            Session::setFlash('error', 'Solicitud no válida.');
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
 
+        $reservationModel = new Reservation();
+
+        $reservation = $reservationModel->findById((int)$id);
+        $slots = $reservationModel->getSlots((int)$id);
+        $materials = $reservationModel->getMaterials((int)$id);
+
+        if (!$reservation) {
+            Session::setFlash('error', 'Solicitud no encontrada.');
+            header('Location: ' . BASE_URL . '/reservations');
+            exit;
+        }
+
+        require_once dirname(__DIR__) . '/views/reservations/show.php';
+    }
 }

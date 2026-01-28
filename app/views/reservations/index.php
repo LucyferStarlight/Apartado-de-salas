@@ -100,15 +100,8 @@ require_once dirname(__DIR__, 2) . '/Helpers/Auth.php';
                         <td><?= $r['created_at'] ?></td>
                         <td>
                         <?php if ($r['status'] === 'pendiente'): ?>
-                            <form method="POST" action="<?= BASE_URL ?>/reservations/approve" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                                <button type="submit">Aprobar</button>
-                            </form>
-
-                            <form method="POST" action="<?= BASE_URL ?>/reservations/reject" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                                <button type="submit">Rechazar</button>
-                            </form>
+                            
+                            <a href="<?= BASE_URL ?>/reservations/show?id=<?=$r['id'] ?>">Revisar</a>
                         <?php else: ?>
                             <?= ucfirst($r['status']) ?>
                         <?php endif; ?>
